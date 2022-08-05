@@ -16,14 +16,15 @@ function curry(fn) {
 }
 
 //ES6
-function curry(func) {
+
+function curry(fn) {
 	return function curried(...args) {
-		if (args.length >= func.length) {
-			return func.apply(this, args);
-		} else {
-			return function (...args2) {
-				return curried.apply(this, args.concat(args2));
+		if (args.length < fn.length) {
+			return function (...next) {
+				return curried(...args, ...next);
 			};
 		}
+
+		return fn(...args);
 	};
 }
